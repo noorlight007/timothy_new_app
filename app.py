@@ -13,10 +13,12 @@ from fastapi.responses import HTMLResponse, PlainTextResponse
 import httpx
 import logging
 
+from tasks import process_webhook  # your Celery task
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("whatsapp-bot")
 
-VERIFY_TOKEN = "6984125oO!?"  # keep exactly as your Flask code
+VERIFY_TOKEN = "6984125oO!"  # keep exactly as your Flask code
 
 app = FastAPI()
 
@@ -79,7 +81,7 @@ async def receive(request: Request):
             return PlainTextResponse(content="ok", status_code=200)
 
         # Keep your Celery async processing
-        # process_webhook.delay(data)
+        process_webhook.delay(data)
         print(data)
 
         return PlainTextResponse(content="okay", status_code=200)
