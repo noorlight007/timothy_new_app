@@ -1,0 +1,598 @@
+{
+  "catalogue_name": "MK Timothy & Company Business Catalogue",
+  "total_items": 34,
+  "businesses": [
+    {
+      "id": 1,
+      "project_id": "cmtjudsd000002agey3a49e0u",
+      "name": "Fort Portal Tea Estate",
+      "country": "Uganda",
+      "category": "Investment Projects",
+      "industry": "Agriculture",
+      "opportunity_type": null,
+      "price": "USD 2.6 M",
+      "details_url": "https://mktimothy.com/project/cmtjudsd000002agey3a49e0u",
+      "image_url": "https://chatbot.manygym.com/static/fort-portal.png",
+      "buttons": {
+        "interested_id": "interest_1",
+        "view_more_id": "view_1"
+      },
+      "original_category": "Agriculture"
+    },
+    {
+      "id": 2,
+      "project_id": "cmteps46r0000p5p2q65hktsx",
+      "name": "Arua Airport Modernisation",
+      "country": "Uganda",
+      "category": "Joint Venture",
+      "industry": "Infrastructure",
+      "opportunity_type": "Joint Venture Opportunities",
+      "price": "USD 170 M",
+      "details_url": "https://www.mktimothy.com/project/cmteps46r0000p5p2q65hktsx",
+      "image_url": "https://chatbot.manygym.com/static/aura_airport.jpeg",
+      "buttons": {
+        "interested_id": "interest_2",
+        "view_more_id": "view_2"
+      },
+      "original_category": "Infrastructure (Joint Venture Opportunities)"
+    },
+    {
+      "id": 3,
+      "project_id": "cmtepl8cj0000cevj5dgvviyv",
+      "name": "Akii Bua Olympic Stadium (Lira)",
+      "country": "Uganda",
+      "category": "Joint Venture",
+      "industry": "Infrastructure",
+      "opportunity_type": "Joint Venture Opportunities",
+      "price": "USD 129 M",
+      "details_url": "https://mktimothy.com/project/cmtepl8cj0000cevj5dgvviyv",
+      "image_url": "https://chatbot.manygym.com/static/akii_bua.jpeg",
+      "buttons": {
+        "interested_id": "interest_3",
+        "view_more_id": "view_3"
+      },
+      "original_category": "Infrastructure (Joint Venture Opportunities)"
+    },
+    {
+      "id": 4,
+      "project_id": "cmtealdre0000k8oxt52nuer7",
+      "name": "Tilenga & Kingfisher Oil Projects",
+      "country": "Uganda",
+      "category": "Joint Venture",
+      "industry": "Energy & Natural Resources",
+      "opportunity_type": "Joint Venture Opportunities",
+      "price": "USD 8.5 B",
+      "details_url": "https://mktimothy.com/project/cmtealdre0000k8oxt52nuer7",
+      "image_url": "https://chatbot.manygym.com/static/tilenga_oil.jpeg",
+      "buttons": {
+        "interested_id": "interest_4",
+        "view_more_id": "view_4"
+      },
+      "original_category": "Energy & Natural Resources (Joint Venture Opportunities)"
+    },
+    {
+      "id": 5,
+      "project_id": "cmte9g4e50002wu02bqab14by",
+      "name": "Kampala City Roads Rehabilitation Project (KCRRP)",
+      "country": "Uganda",
+      "category": "Joint Venture",
+      "industry": "Real Estate & Infrastructure",
+      "opportunity_type": "Joint Venture Opportunities",
+      "price": "USD 288 M",
+      "details_url": "https://mktimothy.com/project/cmte9g4e50002wu02bqab14by",
+      "image_url": "https://chatbot.manygym.com/static/kampala_city.jpeg",
+      "buttons": {
+        "interested_id": "interest_5",
+        "view_more_id": "view_5"
+      },
+      "original_category": "Real Estate & Infrastructure (Joint Venture Opportunities)"
+    },
+    {
+      "id": 6,
+      "project_id": "cmte94cj200021073vp0o6izq",
+      "name": "Kampala–Jinja Expressway",
+      "country": "Uganda",
+      "category": "Joint Venture",
+      "industry": "Real Estate & Infrastructure",
+      "opportunity_type": "Joint Venture Opportunities",
+      "price": "USD 1.5 B",
+      "details_url": "https://mktimothy.com/project/cmte94cj200021073vp0o6izq",
+      "image_url": "https://chatbot.manygym.com/static/kampala_expressway.jpeg",
+      "buttons": {
+        "interested_id": "interest_6",
+        "view_more_id": "view_6"
+      },
+      "original_category": "Real Estate & Infrastructure (Joint Venture Opportunities)"
+    },
+    {
+      "id": 7,
+      "project_id": "cmtcsfuks00005vcvvanlfqm1",
+      "name": "East African Crude Oil Pipeline (EACOP)",
+      "country": "Uganda",
+      "category": "Joint Venture",
+      "industry": "Energy & Natural Resources",
+      "opportunity_type": "Joint Venture Opportunities",
+      "price": "USD 5 B",
+      "details_url": "https://mktimothy.com/project/cmtcsfuks00005vcvvanlfqm1",
+      "image_url": "https://chatbot.manygym.com/static/east_africa_cruide.jpeg",
+      "buttons": {
+        "interested_id": "interest_7",
+        "view_more_id": "view_7"
+      },
+      "original_category": "Energy & Natural Resources (Joint Venture Opportunities)"
+    },
+    {
+      "id": 8,
+      "project_id": "cmtcs3gz0000038y7glkteut7",
+      "name": "Standard Gauge Railway (Malaba–Kampala SGR)",
+      "country": "Uganda",
+      "category": "Joint Venture",
+      "industry": "Real Estate & Infrastructure",
+      "opportunity_type": "Joint Venture Opportunities",
+      "price": "USD 3 B",
+      "details_url": "https://mktimothy.com/project/cmtcs3gz0000038y7glkteut7",
+      "image_url": "https://chatbot.manygym.com/static/gauge_railway.jpeg",
+      "buttons": {
+        "interested_id": "interest_8",
+        "view_more_id": "view_8"
+      },
+      "original_category": "Real Estate & Infrastructure (Joint Venture Opportunities)"
+    },
+    {
+      "id": 9,
+      "project_id": "cmslxa4wv0002hdu811kuuqct",
+      "name": "Entebbe ICT and BPO Park",
+      "country": "Uganda",
+      "category": "Joint Venture",
+      "industry": "ICT & Innovation",
+      "opportunity_type": "Joint Venture Opportunities",
+      "price": "USD 180 M",
+      "details_url": "https://mktimothy.com/project/cmslxa4wv0002hdu811kuuqct",
+      "image_url": "https://chatbot.manygym.com/static/ict_park.jpeg",
+      "buttons": {
+        "interested_id": "interest_9",
+        "view_more_id": "view_9"
+      },
+      "original_category": "ICT & Innovation (Joint Venture Opportunities)"
+    },
+    {
+      "id": 10,
+      "project_id": "cmskpoxgg0000wh737kp1m197",
+      "name": "Hoima International Airport",
+      "country": "Uganda",
+      "category": "Joint Venture",
+      "industry": "Real Estate & Infrastructure",
+      "opportunity_type": "Joint Venture Opportunities",
+      "price": "USD 400 M",
+      "details_url": "https://mktimothy.com/project/cmskpoxgg0000wh737kp1m197",
+      "image_url": "https://chatbot.manygym.com/static/hoima_airport.jpeg",
+      "buttons": {
+        "interested_id": "interest_10",
+        "view_more_id": "view_10"
+      },
+      "original_category": "Real Estate & Infrastructure (Joint Venture Opportunities)"
+    },
+    {
+      "id": 11,
+      "project_id": "cmsix718q000045mcbjlru7su",
+      "name": "Muko Iron and Steel Project (Kabale)",
+      "country": "Uganda",
+      "category": "Joint Venture",
+      "industry": "Manufacturing",
+      "opportunity_type": "Joint Venture Opportunities",
+      "price": "USD 500 M",
+      "details_url": "https://mktimothy.com/project/cmsix718q000045mcbjlru7su",
+      "image_url": "https://chatbot.manygym.com/static/muko_iron.jpg",
+      "buttons": {
+        "interested_id": "interest_11",
+        "view_more_id": "view_11"
+      },
+      "original_category": "Manufacturing (Joint Venture Opportunities)"
+    },
+    {
+      "id": 12,
+      "project_id": "cms20c98400008p0h3hscm8zu",
+      "name": "Commercial Land for Sale in Katosi",
+      "country": "Uganda",
+      "category": "Businesses for Sale",
+      "industry": "Real Estate & Infrastructure",
+      "opportunity_type": "Businesses for Sale",
+      "price": "USD 877 K",
+      "details_url": "https://mktimothy.com/project/cms20c98400008p0h3hscm8zu",
+      "image_url": "https://chatbot.manygym.com/static/Katosi_land.png",
+      "buttons": {
+        "interested_id": "interest_12",
+        "view_more_id": "view_12"
+      },
+      "original_category": "Real Estate & Infrastructure (Businesses for Sale)"
+    },
+    {
+      "id": 13,
+      "project_id": "cms0qlkgd00006wghaem356yy",
+      "name": "Commercial Property for Sale (Nsambya)",
+      "country": "Uganda",
+      "category": "Businesses for Sale",
+      "industry": "Real Estate & Infrastructure",
+      "opportunity_type": "Commercial Real Estate",
+      "price": "USD 3.5 M",
+      "details_url": "https://mktimothy.com/project/cms0qlkgd00006wghaem356yy",
+      "image_url": "https://chatbot.manygym.com/static/nsambya_sale.png",
+      "buttons": {
+        "interested_id": "interest_13",
+        "view_more_id": "view_13"
+      },
+      "original_category": "Real Estate & Infrastructure (Commercial Real Estate)"
+    },
+    {
+      "id": 14,
+      "project_id": "cmrzzo5wi0000szprktxp4qn2",
+      "name": "Commercial Building \"Katatumba Village\" on Sale",
+      "country": "Uganda",
+      "category": "Businesses for Sale",
+      "industry": "Real Estate & Infrastructure",
+      "opportunity_type": "Commercial Real Estate",
+      "price": "USD 2 M",
+      "details_url": "https://mktimothy.com/project/cmrzzo5wi0000szprktxp4qn2",
+      "image_url": "https://chatbot.manygym.com/static/katatumba_village.jpeg",
+      "buttons": {
+        "interested_id": "interest_14",
+        "view_more_id": "view_14"
+      },
+      "original_category": "Real Estate & Infrastructure (Commercial Real Estate)"
+    },
+    {
+      "id": 15,
+      "project_id": "cmrtmbfd30000w99zg8xdde07",
+      "name": "Mixed-Use Hospitality Development for Sale",
+      "country": "Uganda",
+      "category": "Tourism & Hospitality",
+      "industry": "Real Estate & Infrastructure",
+      "opportunity_type": "Joint Venture Opportunities",
+      "price": "USD 6 M",
+      "details_url": "https://mktimothy.com/project/cmrtmbfd30000w99zg8xdde07",
+      "image_url": "https://chatbot.manygym.com/static/mixed_use_hospital.jpeg",
+      "buttons": {
+        "interested_id": "interest_15",
+        "view_more_id": "view_15"
+      },
+      "original_category": "Real Estate & Infrastructure (Joint Venture Opportunities)"
+    },
+    {
+      "id": 16,
+      "project_id": "cmrnpihsi0000nzh785eyce4z",
+      "name": "1MW Maziba Mini Hydro Power Plant",
+      "country": "Uganda",
+      "category": "Businesses for Sale",
+      "industry": "Energy & Natural Resources",
+      "opportunity_type": "Businesses for Sale",
+      "price": "USD 10 M",
+      "details_url": "https://mktimothy.com/project/cmrnpihsi0000nzh785eyce4z",
+      "image_url": "https://chatbot.manygym.com/static/maziba_plant.jpeg",
+      "buttons": {
+        "interested_id": "interest_16",
+        "view_more_id": "view_16"
+      },
+      "original_category": "Energy & Natural Resources (Businesses for Sale)"
+    },
+    {
+      "id": 17,
+      "project_id": "cmrnp0btg000bugfuk9mg5x54",
+      "name": "7.6MW Okulacere Small Hydro Power Plant",
+      "country": "Uganda",
+      "category": "Businesses for Sale",
+      "industry": "Energy & Natural Resources",
+      "opportunity_type": "Businesses for Sale",
+      "price": "USD 36 M",
+      "details_url": "https://mktimothy.com/project/cmrnp0btg000bugfuk9mg5x54",
+      "image_url": "https://chatbot.manygym.com/static/okulacere_plan.jpeg",
+      "buttons": {
+        "interested_id": "interest_17",
+        "view_more_id": "view_17"
+      },
+      "original_category": "Energy & Natural Resources (Businesses for Sale)"
+    },
+    {
+      "id": 18,
+      "project_id": "cmrnok6w90001ugfupdobhk1m",
+      "name": "East African Medical Vitals",
+      "country": "Uganda",
+      "category": "Health Care",
+      "industry": "Manufacturing",
+      "opportunity_type": "Healthcare",
+      "price": "USD 18 M",
+      "details_url": "https://mktimothy.com/project/cmrnok6w90001ugfupdobhk1m",
+      "image_url": "https://chatbot.manygym.com/static/african_medical_vitals.jpeg",
+      "buttons": {
+        "interested_id": "interest_18",
+        "view_more_id": "view_18"
+      },
+      "original_category": "Manufacturing (Healthcare)"
+    },
+    {
+      "id": 19,
+      "project_id": "cmrn49coj0000uk63vvz9yru0",
+      "name": "Iron and Steel Manufacturing Factory",
+      "country": "Uganda",
+      "category": "Joint Venture",
+      "industry": "Energy & Natural Resources",
+      "opportunity_type": "Joint Venture Opportunities",
+      "price": "USD 53 M",
+      "details_url": "https://mktimothy.com/project/cmrn49coj0000uk63vvz9yru0",
+      "image_url": "https://chatbot.manygym.com/static/iron_factory.jpeg",
+      "buttons": {
+        "interested_id": "interest_19",
+        "view_more_id": "view_19"
+      },
+      "original_category": "Energy & Natural Resources (Joint Venture Opportunities)"
+    },
+    {
+      "id": 20,
+      "project_id": "cmrn3mpzm000092tqkntc1886",
+      "name": "Sheet Glass Manufacturing Factory",
+      "country": "Uganda",
+      "category": "Joint Venture",
+      "industry": "Energy & Natural Resources",
+      "opportunity_type": "Joint Venture Opportunities",
+      "price": "USD 44.6 M",
+      "details_url": "https://mktimothy.com/project/cmrn3mpzm000092tqkntc1886",
+      "image_url": "https://chatbot.manygym.com/static/steel_factory.jpeg",
+      "buttons": {
+        "interested_id": "interest_20",
+        "view_more_id": "view_20"
+      },
+      "original_category": "Energy & Natural Resources (Joint Venture Opportunities)"
+    },
+    {
+      "id": 21,
+      "project_id": "cmrn2s38n000014bjhrkxir9t",
+      "name": "Moroto Integrated Cement, Lime, and Marble Manufacturing Factory",
+      "country": "Uganda",
+      "category": "Joint Venture",
+      "industry": "Energy & Natural Resources",
+      "opportunity_type": "Joint Venture Opportunities",
+      "price": "USD 105.5 M",
+      "details_url": "https://mktimothy.com/project/cmrn2s38n000014bjhrkxir9t",
+      "image_url": "https://chatbot.manygym.com/static/moroto_factory.jpeg",
+      "buttons": {
+        "interested_id": "interest_21",
+        "view_more_id": "view_21"
+      },
+      "original_category": "Energy & Natural Resources (Joint Venture Opportunities)"
+    },
+    {
+      "id": 22,
+      "project_id": "cmrks96vy0000bfqpgaz5azfb",
+      "name": "Pearl Marina Estates Limited",
+      "country": "Uganda",
+      "category": "Businesses for Sale",
+      "industry": "Real Estate & Infrastructure",
+      "opportunity_type": "Commercial Real Estate",
+      "price": "USD 45 M",
+      "details_url": "https://mktimothy.com/project/cmrks96vy0000bfqpgaz5azfb",
+      "image_url": "https://chatbot.manygym.com/static/marina_estate.jpeg",
+      "buttons": {
+        "interested_id": "interest_22",
+        "view_more_id": "view_22"
+      },
+      "original_category": "Real Estate & Infrastructure (Commercial Real Estate)"
+    },
+    {
+      "id": 23,
+      "project_id": "cmrisk43b0000jmpnk5amvea8",
+      "name": "Nzururu Heights Resort",
+      "country": "Uganda",
+      "category": "Tourism & Hospitality",
+      "industry": "Tourism & Hospitality",
+      "opportunity_type": "Investment Projects Seeking Capital",
+      "price": "USD 40 M",
+      "details_url": "https://mktimothy.com/project/cmrisk43b0000jmpnk5amvea8",
+      "image_url": "https://chatbot.manygym.com/static/nzururu_resort.jpeg",
+      "buttons": {
+        "interested_id": "interest_23",
+        "view_more_id": "view_23"
+      },
+      "original_category": "Tourism & Hospitality (Investment Projects Seeking Capital)"
+    },
+    {
+      "id": 24,
+      "project_id": "cmrirv25h0000jemdy2ei1vfo",
+      "name": "Development of Waterbased Eco-Adventure Parks (Geothermal Spas & Resorts)",
+      "country": "Uganda",
+      "category": "Tourism & Hospitality",
+      "industry": "Tourism & Hospitality",
+      "opportunity_type": "Tourism & Hospitality Assets",
+      "price": "USD 23.9 M",
+      "details_url": "https://mktimothy.com/project/cmrirv25h0000jemdy2ei1vfo",
+      "image_url": "https://chatbot.manygym.com/static/water_park.jpeg",
+      "buttons": {
+        "interested_id": "interest_24",
+        "view_more_id": "view_24"
+      },
+      "original_category": "Tourism & Hospitality (Tourism & Hospitality Assets)"
+    },
+    {
+      "id": 25,
+      "project_id": "cmr7ryv4s0000z70xqmnye3dw",
+      "name": "Tourist Infrastructure at Equator Points",
+      "country": "Uganda",
+      "category": "Tourism & Hospitality",
+      "industry": "Tourism & Hospitality",
+      "opportunity_type": "Tourism & Hospitality Assets",
+      "price": "USD 8.7 M",
+      "details_url": "https://mktimothy.com/project/cmr7ryv4s0000z70xqmnye3dw",
+      "image_url": "https://chatbot.manygym.com/static/equator_points.jpeg",
+      "buttons": {
+        "interested_id": "interest_25",
+        "view_more_id": "view_25"
+      },
+      "original_category": "Tourism & Hospitality (Tourism & Hospitality Assets)"
+    },
+    {
+      "id": 26,
+      "project_id": "cmr7po1af00055xvc0z33m5rq",
+      "name": "Mount Elgon National Park Infrastructure",
+      "country": "Uganda",
+      "category": "Tourism & Hospitality",
+      "industry": "Tourism & Hospitality",
+      "opportunity_type": "Tourism & Hospitality Assets",
+      "price": "USD 79 M",
+      "details_url": "https://mktimothy.com/project/cmr7po1af00055xvc0z33m5rq",
+      "image_url": "https://chatbot.manygym.com/static/mount_park.jpeg",
+      "buttons": {
+        "interested_id": "interest_26",
+        "view_more_id": "view_26"
+      },
+      "original_category": "Tourism & Hospitality (Tourism & Hospitality Assets)"
+    },
+    {
+      "id": 27,
+      "project_id": "cmr7pd71e000ca80a94pg4s3x",
+      "name": "UWEC Infrastructure Development Project",
+      "country": "Uganda",
+      "category": "Tourism & Hospitality",
+      "industry": "Tourism & Hospitality",
+      "opportunity_type": "Tourism & Hospitality Assets",
+      "price": "USD 15.6 M",
+      "details_url": "https://mktimothy.com/project/cmr7pd71e000ca80a94pg4s3x",
+      "image_url": "https://chatbot.manygym.com/static/development_project.jpeg",
+      "buttons": {
+        "interested_id": "interest_27",
+        "view_more_id": "view_27"
+      },
+      "original_category": "Tourism & Hospitality (Tourism & Hospitality Assets)"
+    },
+    {
+      "id": 28,
+      "project_id": "cmr7orl5w000fsyroj6mf2gd6",
+      "name": "Cattle Feed & Supplement Manufacturing",
+      "country": "Uganda",
+      "category": "Investment Projects",
+      "industry": "Agriculture & Agribusiness",
+      "opportunity_type": "Agriculture",
+      "price": "USD 10 M",
+      "details_url": "https://mktimothy.com/project/cmr7orl5w000fsyroj6mf2gd6",
+      "image_url": "https://chatbot.manygym.com/static/cattle_feed.jpeg",
+      "buttons": {
+        "interested_id": "interest_28",
+        "view_more_id": "view_28"
+      },
+      "original_category": "Agriculture & Agribusiness (Agriculture)"
+    },
+    {
+      "id": 29,
+      "project_id": "cmr7oift40005syro6onykqs2",
+      "name": "Lira Spinning Mill",
+      "country": "Uganda",
+      "category": "Investment Projects",
+      "industry": "Agriculture & Agribusiness",
+      "opportunity_type": "Agriculture",
+      "price": "USD 44.34 M",
+      "details_url": "https://mktimothy.com/project/cmr7oift40005syro6onykqs2",
+      "image_url": "https://chatbot.manygym.com/static/spinning_mil.jpeg",
+      "buttons": {
+        "interested_id": "interest_29",
+        "view_more_id": "view_29"
+      },
+      "original_category": "Agriculture & Agribusiness (Agriculture)"
+    },
+    {
+      "id": 30,
+      "project_id": "cmr7nzubo0002a80aucpr6sf5",
+      "name": "Busoga Sugar Processing Factory",
+      "country": "Uganda",
+      "category": "Investment Projects",
+      "industry": "Agriculture & Agribusiness",
+      "opportunity_type": "Agriculture",
+      "price": "USD 37.84 M",
+      "details_url": "https://mktimothy.com/project/cmr7nzubo0002a80aucpr6sf5",
+      "image_url": "https://chatbot.manygym.com/static/sugar_factory.jpeg",
+      "buttons": {
+        "interested_id": "interest_30",
+        "view_more_id": "view_30"
+      },
+      "original_category": "Agriculture & Agribusiness (Agriculture)"
+    },
+    {
+      "id": 31,
+      "project_id": "cmr7kkxjt0000133rals5rsuu",
+      "name": "Soluble Coffee Processing Factory",
+      "country": "Uganda",
+      "category": "Investment Projects",
+      "industry": "Agriculture & Agribusiness",
+      "opportunity_type": "Agriculture",
+      "price": "USD 48.1 M",
+      "details_url": "https://mktimothy.com/project/cmr7kkxjt0000133rals5rsuu",
+      "image_url": "https://chatbot.manygym.com/static/coffee_factory.jpeg",
+      "buttons": {
+        "interested_id": "interest_31",
+        "view_more_id": "view_31"
+      },
+      "original_category": "Agriculture & Agribusiness (Agriculture)"
+    },
+    {
+      "id": 32,
+      "project_id": "cmr5viz5e00009a7uji4ztnp1",
+      "name": "Cocoa Processing Factory",
+      "country": "Uganda",
+      "category": "Investment Projects",
+      "industry": "Agriculture & Agribusiness",
+      "opportunity_type": "Agriculture",
+      "price": "USD 24.3 M",
+      "details_url": "https://mktimothy.com/project/cmr5viz5e00009a7uji4ztnp1",
+      "image_url": "https://chatbot.manygym.com/static/cocoa_factory.jpeg",
+      "buttons": {
+        "interested_id": "interest_32",
+        "view_more_id": "view_32"
+      },
+      "original_category": "Agriculture & Agribusiness (Agriculture)"
+    },
+    {
+      "id": 33,
+      "project_id": "cmr5v6zlt0002kud1o16ivp55",
+      "name": "Acholibur Cassava Processing Factory",
+      "country": "Uganda",
+      "category": "Investment Projects",
+      "industry": "Agriculture & Agribusiness",
+      "opportunity_type": "Agriculture",
+      "price": "USD 16.5 M",
+      "details_url": "https://mktimothy.com/project/cmr5v6zlt0002kud1o16ivp55",
+      "image_url": "https://chatbot.manygym.com/static/cassava_factory.jpeg",
+      "buttons": {
+        "interested_id": "interest_33",
+        "view_more_id": "view_33"
+      },
+      "original_category": "Agriculture & Agribusiness (Agriculture)"
+    },
+    {
+      "id": 34,
+      "project_id": "cmr5ur0zj000431lpfnrmuir4",
+      "name": "Luwero Fruit Factory",
+      "country": "Uganda",
+      "category": "Investment Projects",
+      "industry": "Agriculture & Agribusiness",
+      "opportunity_type": "Agriculture",
+      "price": "USD 9.7 M",
+      "details_url": "https://mktimothy.com/project/cmr5ur0zj000431lpfnrmuir4",
+      "image_url": "https://chatbot.manygym.com/static/luwero_fruit.jpeg",
+      "buttons": {
+        "interested_id": "interest_34",
+        "view_more_id": "view_34"
+      },
+      "original_category": "Agriculture & Agribusiness (Agriculture)"
+    }
+  ],
+  "categories": [
+    "Investment Projects",
+    "Tourism & Hospitality",
+    "Health Care",
+    "Businesses for Sale",
+    "Joint Venture"
+  ],
+  "category_counts": {
+    "Investment Projects": 8,
+    "Tourism & Hospitality": 6,
+    "Health Care": 1,
+    "Businesses for Sale": 6,
+    "Joint Venture": 13
+  }
+}
