@@ -384,6 +384,7 @@ def business_carousel_payload(sender, businesses):
 
         cards.append(card)
 
+    
     payload = {
         "messaging_product": "whatsapp",
         "recipient_type": "individual",

@@ -103,13 +103,30 @@ def clear_data(sender) -> bool:
 
 ########  @@@@@@@  #######
 def error_message_payload(sender):
-    text = "Wrong keyword. Please try again."
+    text = "🤔 Oops! We didn't catch that.\n\nPlease tap a option from the menu or click on Back to Home to start over\n\n✨ We're here to help."
     payload = {
         "messaging_product": "whatsapp",
         "to": sender,
-        "type": "text",
-        "text": {
-            "body": text.strip()
+        "type": "interactive",
+
+        "interactive": {
+            "type": "button",
+
+            "body": {
+                "text": text.strip()
+            },
+
+            "action": {
+                "buttons": [
+                    {
+                        "type": "reply",
+                        "reply": {
+                            "id": "back_home",
+                            "title": "Back to Home"
+                        }
+                    }
+                ]
+            }
         }
     }
 
@@ -118,7 +135,7 @@ def error_message_payload(sender):
 def welcome_message_payload(sender):
     text = "👋 Welcome to MK Timothy & Company"
     text+= "\n\n🌍 Your next business opportunity starts here."
-    text+= "\n\nPLooking to buy a business, invest or find the right partner in Uganda and East Africa? Let’s connect you."
+    text+= "\n\nLooking to buy a business, invest or find the right partner in Uganda and East Africa? Let’s connect you."
     text+= "\n\nChoose your next move: 👇"
 
     payload = {
@@ -129,7 +146,7 @@ def welcome_message_payload(sender):
             "type": "list",
             "body": {"text": text.strip()},
             "footer": {
-                "text": "🤝 Big opportunities begin with strong partnerships. Meet ours."
+                "text": "💬 Tell us your ambition. Let's explore the possibilities."
             },
             # "footer": {"text": footer_text},
             "action": {
@@ -142,10 +159,10 @@ def welcome_message_payload(sender):
                             "id": "wlc_1",
                             "title": "Explore Businesses"
                             },
-                            # {
-                            # "id": "wlc_2",
-                            # "title": "Investment Opportunities"
-                            # },
+                            {
+                            "id": "wlc_2",
+                            "title": "Investment Sectors"
+                            },
                             {
                             "id": "wlc_3",
                             "title": "Our Solutions"
@@ -174,7 +191,7 @@ def welcome_message_payload(sender):
     return payload
 
 def join_venture_starting_payload(sender):
-    text= "You have chosen *Join Ventures*.\n\nNow please select an industry to continue."
+    text= "You have chosen *Join Ventures*.\n\n👇 Please select an industry to continue."
     payload = {
         "messaging_product": "whatsapp",
         "to": sender,
@@ -228,7 +245,7 @@ def join_venture_starting_payload(sender):
     return payload
 
 def explore_business_payload(sender):
-    text = "Thank you for your interest in checking the investment opportunities we are currently offering from MK Timothy & Company.\n\nPlease select the category first to continue."
+    text = "💎 One nation. Endless opportunity.\n\n👇 Please select the category first to continue."
     payload = {
         "messaging_product": "whatsapp",
         "to": sender,
@@ -262,6 +279,64 @@ def explore_business_payload(sender):
                             {
                                 "id": "sector_5",
                                 "title": "Investment Projects"
+                            },
+                            {
+                                "id": "back_home",
+                                "title": "Back to Home"
+                            }
+
+                        ],
+                    }
+                ]
+            },
+        },
+    }
+
+    return payload
+
+def investment_sectors_payload(sender):
+    text = "📊 INVESTMENT SECTORS 🇺🇬\n\n💎 Untapped potential in every sector.\n\n👇 Select any menu option:"
+    payload = {
+        "messaging_product": "whatsapp",
+        "to": sender,
+        "type": "interactive",
+        "interactive": {
+            "type": "list",
+            "body": {"text": text.strip()},
+            # "footer": {"text": footer_text},
+            "action": {
+                "button": "SECTORS",
+                "sections": [
+                    {
+                        "title": "uuu",
+                        "rows": [
+                            {
+                                "id": "sector_1",
+                                "title": "All Sectors"
+                            },
+                            {
+                                "id": "sector_2",
+                                "title": "Tourism & Hospitality"
+                            },
+                            {
+                                "id": "sector_3",
+                                "title": "Agriculture"
+                            },
+                            {
+                                "id": "sector_4",
+                                "title": "Real Estate"
+                            },
+                            {
+                                "id": "sector_5",
+                                "title": "Manufacturing"
+                            },
+                            {
+                                "id": "sector_6",
+                                "title": "Energy & Natural"
+                            },
+                            {
+                                "id": "sector_7",
+                                "title": "ICT & Innovation"
                             },
                             {
                                 "id": "back_home",
@@ -326,6 +401,7 @@ def process_webhook(self, payload: dict):
 
             ########## Exceptional Flows ....
             print(button_msg_id)
+            
             if button_msg_id: 
                 if button_msg_id.startswith("pp_interest_"):
                     # interested in a property
@@ -443,7 +519,7 @@ def process_webhook(self, payload: dict):
                     return "Okay"
                 
                 elif button_msg_id.startswith("speak_to_advisor"):
-                    text = "Thank you for choosing Mk Timothy & Company.\n\n Sure. To proceed, type in your name please."
+                    text = "Let’s move your ambitions forward!\n\nEnter your name, and we’ll connect you with an advisor shortly."
                     payload = {
                         "messaging_product": "whatsapp",
                         "to": sender,
@@ -475,7 +551,116 @@ def process_webhook(self, payload: dict):
                     send_whatsapp_message(sender, payload, headers, url)
 
                     return "Okay"
+                
+                # back_invesment_sectors
+                elif button_msg_id.startswith("back_invesment_sectors"):
+                    payload = investment_sectors_payload(sender)
+                    
+                    set_state(sender, "investment_sectors")
+                    # clear_state(sender)
+            
+                    # Send message to WhatsApp (sync httpx client)
+                    send_whatsapp_message(sender, payload, headers, url)
+                    return "Okay"
 
+            # if list_msg_id:
+            #     # Office locations
+            #     if list_msg_id == "about_1_3":
+            #         text = "📍 OUR OFFICES 🌍\n\nGlobal reach. African roots."
+            #         text+= "\n\n🇺🇬 Uganda: Home and Office Complex\n🇰🇪 Kenya: 308-8988 Fraserton Court\n🇸🇸 South Sudan: Hai Malakal, Juba"
+            #         text+= "\n🇿🇦 South Africa: Black River Park, Fir St\nJapan: Metropolitan Road 319, Kanjo\n\n✨ We're closer than you think.\n\n👇 Tap any button:"
+            #         payload = {
+            #             "messaging_product": "whatsapp",
+            #             "to": sender,
+            #             "type": "interactive",
+
+            #             "interactive": {
+            #                 "type": "button",
+
+            #                 "body": {
+            #                     "text": text.strip()
+            #                 },
+
+            #                 "action": {
+            #                     "buttons": [
+            #                         {
+            #                             "type": "reply",
+            #                             "reply": {
+            #                                 "id": "speak_to_advisor",
+            #                                 "title": "Speak to an Advisor"
+            #                             }
+            #                         },
+            #                         {
+            #                             "type": "reply",
+            #                             "reply": {
+            #                                 "id": "back_home",
+            #                                 "title": "Back to Home"
+            #                             }
+            #                         }
+            #                     ]
+            #                 }
+            #             }
+            #         }
+
+            #         clear_state(sender)
+            #         # Send message to WhatsApp
+            #         send_whatsapp_message(sender, payload, headers, url)
+
+            #         return "Okay"
+
+            #     # Our solutions
+            #     elif list_msg_id == "wlc_3":
+            #         text = "Your Vision Has a Home. It's Called Uganda."
+            #         text += "\n\nEvery great business starts with a single step, and the right partner beside you. MK Timothy & Company walks with you from idea to impact:"
+            #         text += "\n\n🏢 Start something new"
+            #         text += "\n🏗️ Grow something bigger"
+            #         text += "\n💼 Sell, buy, or expand with confidence"
+            #         text += "\n\nFrom registration to regional expansion, we handle the how, so you can focus on the why."
+            #         text += "\n\nLet's build your next chapter. Together."
+
+            #         payload = {
+            #             "messaging_product": "whatsapp",
+            #             "to": sender,
+            #             "type": "interactive",
+
+            #             "interactive": {
+            #                 "type": "button",
+
+            #                 "body": {
+            #                     "text": text.strip()
+            #                 },
+
+            #                 "action": {
+            #                     "buttons": [
+            #                         {
+            #                             "type": "reply",
+            #                             "reply": {
+            #                                 "id": "speak_to_advisor",
+            #                                 "title": "Speak to an Advisor"
+            #                             }
+            #                         }
+            #                     ]
+            #                 }
+            #             }
+            #         }
+
+            #         clear_state(sender)
+                    
+            #         send_whatsapp_message(sender, payload, headers, url)
+                    
+            #         return "Okay"
+
+            #     # Explore products
+            #     elif list_msg_id == "wlc_1":
+            #         payload = explore_business_payload(sender)
+            #         # Update state for next step
+            #         set_state(sender, "explore_business")
+            #         # clear_state(sender)
+            
+            #         # Send message to WhatsApp (sync httpx client)
+            #         send_whatsapp_message(sender, payload, headers, url)
+            #         return "Okay"
+                
             ######################################
             ####### Welcome flow
             if not get_state(sender):
@@ -507,15 +692,26 @@ def process_webhook(self, payload: dict):
                     send_whatsapp_message(sender, payload, headers, url)
                     return "Okay"
 
+                # Investment Sectors source
+                elif msg_type == "interactive_list_reply" and list_msg_id == "wlc_2":
+                    payload = investment_sectors_payload(sender)
+
+                    set_state(sender, "investment_sectors")
+                    # clear_state(sender)
+            
+                    # Send message to WhatsApp (sync httpx client)
+                    send_whatsapp_message(sender, payload, headers, url)
+                    return "Okay"
+
                 # Our solutions and end of it
                 elif msg_type == "interactive_list_reply" and list_msg_id == "wlc_3":
-                    text = "We support companies, investors, governments, and development agencies to understand African markets, manage risk, access opportunities, and achieve sustainable growth."
-                    text += "\n\n*Business Intelligence*"
-                    text += "\nWe provide market insights, risk analysis, tailored intelligence, and opportunity and partner identification to help clients make informed decisions across Africa."
-                    text += "\n\n*Stakeholder Engagement*"
-                    text += "\nUsing our strong public and private sector networks, we help clients identify and engage key stakeholders, build partnerships, and support investment and expansion."
-                    text += "\n\n*Sustainability Advisory*"
-                    text += "\nWe help clients create and protect long-term value through ESG strategy, due diligence, sustainability consulting, auditing, and non-financial reporting."
+                    text = "Your Vision Has a Home. It's Called Uganda."
+                    text += "\n\nEvery great business starts with a single step, and the right partner beside you. MK Timothy & Company walks with you from idea to impact:"
+                    text += "\n\n🏢 Start something new"
+                    text += "\n🏗️ Grow something bigger"
+                    text += "\n💼 Sell, buy, or expand with confidence"
+                    text += "\n\nFrom registration to regional expansion, we handle the how, so you can focus on the why."
+                    text += "\n\nLet's build your next chapter. Together."
 
                     payload = {
                         "messaging_product": "whatsapp",
@@ -573,7 +769,7 @@ def process_webhook(self, payload: dict):
 
                 # Source of Speak to an advisor
                 elif msg_type == "interactive_list_reply" and list_msg_id == "wlc_5":
-                    text = "Thank you, we will connect you with an advisor shortly.\n\nTo proceed, type in your name please."
+                    text = "Let’s move your ambitions forward!\n\nEnter your name, and we’ll connect you with an advisor shortly."
                     payload = {
                         "messaging_product": "whatsapp",
                         "to": sender,
@@ -608,7 +804,10 @@ def process_webhook(self, payload: dict):
 
                 # Source of About Mk Timothy
                 elif msg_type == "interactive_list_reply" and list_msg_id == "about_timothy":
-                    text = f"Invest in Uganda now - a goldmine of growth, resources and unbeatable returns you can't afford to miss!\n\nClick on the button below to explore more about Mk Timothy & Company."
+                    text = f"🇺🇬🔥 INVEST IN UGANDA"
+                    text+= "\n\n💰 Growth\n🌍 Resources\n📈 Returns"
+                    text+= "\n\n✨ Everything you've been searching for. Right here.\n\n🔑 MK Timothy & Company unlocks the door to Invest in Uganda."
+                    text+= "\n\n👇 Tap a number to begin:"
             
                     payload = {
                         "messaging_product": "whatsapp",
@@ -622,8 +821,12 @@ def process_webhook(self, payload: dict):
                                 "button": "EXPLORE MORE",
                                 "sections": [
                                     {
-                                        "title": "uuu",
+                                        "title": "uuu", 
                                         "rows": [
+                                            {
+                                            "id": "about_1_0",
+                                            "title": "Opportunities"
+                                            },
                                             {
                                             "id": "about_1_1",
                                             "title": "Our Legacy"
@@ -654,6 +857,13 @@ def process_webhook(self, payload: dict):
             
                     # Send message to WhatsApp (sync httpx client)
                     send_whatsapp_message(sender, payload, headers, url)
+                    return "Okay"
+
+                else:
+                    payload = error_message_payload(sender)
+
+                    send_whatsapp_message(sender, payload, headers, url)
+
                     return "Okay"
 
             
@@ -733,6 +943,335 @@ def process_webhook(self, payload: dict):
 
             ####### End of Explore business flow
 
+            # investment_sectors
+            ######################################
+            ####### Investment sector flow
+            elif get_state(sender) == "investment_sectors":
+                # All sectors
+                if msg_type == "interactive_list_reply" and list_msg_id == "sector_1":
+                    text = "🏢 ALL SECTORS 🇺🇬\n\n💎 One nation. Endless opportunity.\n\n🏖️ Tourism & Hospitality\n🌾 Agriculture & Agribusiness"
+                    text+= "\n🏗️ Real Estate & Infrastructure\n🏭 Manufacturing\n⚡ Energy & Natural Resources\n💻 ICT & Innovation"
+                    text+= "\n\n✨ Your fortune starts here."
+
+                    payload = {
+                        "messaging_product": "whatsapp",
+                        "to": sender,
+                        "type": "interactive",
+
+                        "interactive": {
+                            "type": "button",
+
+                            "body": {
+                                "text": text.strip()
+                            },
+
+                            "action": {
+                                "buttons": [
+                                    {
+                                        "type": "reply",
+                                        "reply": {
+                                            "id": "speak_to_advisor",
+                                            "title": "Speak to an Advisor"
+                                        }
+                                    },
+                                    {
+                                        "type": "reply",
+                                        "reply": {
+                                            "id": "back_invesment_sectors",
+                                            "title": "Back"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+
+                    clear_state(sender)
+                    # Send message to WhatsApp
+                    send_whatsapp_message(sender, payload, headers, url)
+
+                    return "Okay"
+
+                # Tourism & Hospitality
+                elif msg_type == "interactive_list_reply" and list_msg_id == "sector_2":
+                    text = "🏖️ TOURISM & HOSPITALITY 🇺🇬\n\n🦁 The Pearl of Africa is open for business.\n\n🏨 Hotels & Lodges\n🦍 Eco-Tourism\n🍽️ Hospitality"
+                    text+= "\n\n✨ Profit from paradise."
+
+                    payload = {
+                        "messaging_product": "whatsapp",
+                        "to": sender,
+                        "type": "interactive",
+
+                        "interactive": {
+                            "type": "button",
+
+                            "body": {
+                                "text": text.strip()
+                            },
+
+                            "action": {
+                                "buttons": [
+                                    {
+                                        "type": "reply",
+                                        "reply": {
+                                            "id": "speak_to_advisor",
+                                            "title": "Speak to an Advisor"
+                                        }
+                                    },
+                                    {
+                                        "type": "reply",
+                                        "reply": {
+                                            "id": "back_invesment_sectors",
+                                            "title": "Back"
+                                        }
+                                    },
+                                    {
+                                        "type": "reply",
+                                        "reply": {
+                                            "id": "back_home",
+                                            "title": "Back to Home"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+
+                    clear_state(sender)
+                    # Send message to WhatsApp
+                    send_whatsapp_message(sender, payload, headers, url)
+
+                    return "Okay"
+
+                # 🌾 AGRICULTURE & AGRIBUSINESS 🇺🇬
+                elif msg_type == "interactive_list_reply" and list_msg_id == "sector_3":
+                    text = "🌾 AGRICULTURE & AGRIBUSINESS 🇺🇬\n\n🌱 Africa's food basket is ripe for investment.\n\n☕ Coffee & Tea\n🍫 Agro-Processing\n🐄 Livestock"
+                    text+= "\n\n✨ Reap what you sow."
+
+                    payload = {
+                        "messaging_product": "whatsapp",
+                        "to": sender,
+                        "type": "interactive",
+
+                        "interactive": {
+                            "type": "button",
+
+                            "body": {
+                                "text": text.strip()
+                            },
+
+                            "action": {
+                                "buttons": [
+                                    {
+                                        "type": "reply",
+                                        "reply": {
+                                            "id": "speak_to_advisor",
+                                            "title": "Speak to an Advisor"
+                                        }
+                                    },
+                                    {
+                                        "type": "reply",
+                                        "reply": {
+                                            "id": "back_invesment_sectors",
+                                            "title": "Back"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+
+                    clear_state(sender)
+                    # Send message to WhatsApp
+                    send_whatsapp_message(sender, payload, headers, url)
+
+                    return "Okay"
+
+                # Real estate
+                elif msg_type == "interactive_list_reply" and list_msg_id == "sector_4":
+                    text = "🏗️ REAL ESTATE & INFRASTRUCTURE 🇺🇬\n\n🏙️ Uganda is building its future. Build with it.\n\n🏘️ Residential\n🏬 Commercial\n🛣️ Roads & Dams"
+                    text+= "\n\n✨ Reap what you sow."
+
+                    payload = {
+                        "messaging_product": "whatsapp",
+                        "to": sender,
+                        "type": "interactive",
+
+                        "interactive": {
+                            "type": "button",
+
+                            "body": {
+                                "text": text.strip()
+                            },
+
+                            "action": {
+                                "buttons": [
+                                    {
+                                        "type": "reply",
+                                        "reply": {
+                                            "id": "speak_to_advisor",
+                                            "title": "Speak to an Advisor"
+                                        }
+                                    },
+                                    {
+                                        "type": "reply",
+                                        "reply": {
+                                            "id": "back_invesment_sectors",
+                                            "title": "Back"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+
+                    clear_state(sender)
+                    # Send message to WhatsApp
+                    send_whatsapp_message(sender, payload, headers, url)
+
+                    return "Okay"
+
+                # Manufacturing
+                elif msg_type == "interactive_list_reply" and list_msg_id == "sector_5":
+                    text = "🏭 MANUFACTURING 🇺🇬\n\n⚙️ Africa's next factory floor.\n\n🍫 Agro-Processing\n🧱 Building Materials\n👕 Textiles"
+                    text+= "\n\n✨ Build where the world is buying."
+
+                    payload = {
+                        "messaging_product": "whatsapp",
+                        "to": sender,
+                        "type": "interactive",
+
+                        "interactive": {
+                            "type": "button",
+
+                            "body": {
+                                "text": text.strip()
+                            },
+
+                            "action": {
+                                "buttons": [
+                                    {
+                                        "type": "reply",
+                                        "reply": {
+                                            "id": "speak_to_advisor",
+                                            "title": "Speak to an Advisor"
+                                        }
+                                    },
+                                    {
+                                        "type": "reply",
+                                        "reply": {
+                                            "id": "back_invesment_sectors",
+                                            "title": "Back"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+
+                    clear_state(sender)
+                    # Send message to WhatsApp
+                    send_whatsapp_message(sender, payload, headers, url)
+
+                    return "Okay"
+
+                # Energy
+                elif msg_type == "interactive_list_reply" and list_msg_id == "sector_6":
+                    text = "⚡ ENERGY & NATURAL RESOURCES 🇺🇬\n\n💎 Africa's powerhouse is waking up.\n\n🛢️ Oil & Gas\n☀️ Solar\n⛏️ Mining"
+                    text+= "\n\n✨ Power your portfolio."
+
+                    payload = {
+                        "messaging_product": "whatsapp",
+                        "to": sender,
+                        "type": "interactive",
+
+                        "interactive": {
+                            "type": "button",
+
+                            "body": {
+                                "text": text.strip()
+                            },
+
+                            "action": {
+                                "buttons": [
+                                    {
+                                        "type": "reply",
+                                        "reply": {
+                                            "id": "speak_to_advisor",
+                                            "title": "Speak to an Advisor"
+                                        }
+                                    },
+                                    {
+                                        "type": "reply",
+                                        "reply": {
+                                            "id": "back_invesment_sectors",
+                                            "title": "Back"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+
+                    clear_state(sender)
+                    # Send message to WhatsApp
+                    send_whatsapp_message(sender, payload, headers, url)
+
+                    return "Okay"
+
+                # ICT
+                elif msg_type == "interactive_list_reply" and list_msg_id == "sector_7":
+                    text = "💻 ICT & INNOVATION 🇺🇬\n\n🚀 Uganda's tech scene is exploding.\n\n📱 Fintech\n🌐 Internet\n🤖 AI & Software"
+                    text+= "\n\n✨ Invest in tomorrow, today."
+
+                    payload = {
+                        "messaging_product": "whatsapp",
+                        "to": sender,
+                        "type": "interactive",
+
+                        "interactive": {
+                            "type": "button",
+
+                            "body": {
+                                "text": text.strip()
+                            },
+
+                            "action": {
+                                "buttons": [
+                                    {
+                                        "type": "reply",
+                                        "reply": {
+                                            "id": "speak_to_advisor",
+                                            "title": "Speak to an Advisor"
+                                        }
+                                    },
+                                    {
+                                        "type": "reply",
+                                        "reply": {
+                                            "id": "back_invesment_sectors",
+                                            "title": "Back"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+
+                    clear_state(sender)
+                    # Send message to WhatsApp
+                    send_whatsapp_message(sender, payload, headers, url)
+
+                    return "Okay"
+
+                else:
+                    payload = error_message_payload(sender)
+                    
+                    # Send message to WhatsApp
+                    send_whatsapp_message(sender, payload, headers, url)
+
+                    return "Okay"
+            # TODO
+
             # Join Venture flow
             elif get_state(sender) == "explore_business_sector_1_industry":
                 items = {}
@@ -809,7 +1348,7 @@ def process_webhook(self, payload: dict):
                     return "Okay"
 
                 else:
-                    text= f"Thank you {user_name}, one of our advisors will contact you shortly.\n\nIn the meantime, you can explore our business website. Thank you!"
+                    text= f"Your next opportunity awaits, {user_name}!\n\nAn advisor will contact you shortly. Discover more opportunities while you wait."
                     payload = {
                         "messaging_product": "whatsapp",
                         "to": sender,
@@ -854,13 +1393,55 @@ def process_webhook(self, payload: dict):
             ######################################
             ####### About Timothy flow
             elif get_state(sender) == "about_timothy":
-                # our Legacy
-                if msg_type == "interactive_list_reply" and list_msg_id == "about_1_1":
-                    text = "Founded in 2016 by Ugandan-born Japanese angel investor and venture capitalist Musasizi Timothy Karubanga, Mk Timothy & Company supports investors and corporations operating in Uganda and worldwide. The company promotes Africa as a destination where profitable business opportunities can also create meaningful and sustainable development."
-                    text+= "\nAs Africa's commercial landscape has evolved, Mk Timothy & Company has expanded its services across key industries shaping the continent's future. It supports respected investors and partners in sectors such as development finance, renewable energy, telecommunications, transportation, and logistics."
-                    text+= "\nDespite its growing reach and diverse portfolio, the company remains committed to delivering exceptional service, helping clients achieve their operational and investment goals while generating lasting value for investors and African communities."
-                    text+= "\nMk Timothy & Company's mission is to advance sustainable and equitable investment across Africa while encouraging international entrepreneurs to explore the many opportunities available in Uganda. It is where Africa's potential connects with global ambition."
+                # Opportunities
+                if msg_type == "interactive_list_reply" and list_msg_id == "about_1_0":
+                    text = "📊 INVESTMENT OPPORTUNITIES 🇺🇬"
+                    text+= "\n\n🏢 Businesses for Sale\n🏗️ Investment Projects\n🤝 Joint Ventures\n💰 Bankable Projects\n\n✨ Returns start here.\n\n👇 Tap any button:"
+                    
+                    payload = {
+                        "messaging_product": "whatsapp",
+                        "to": sender,
+                        "type": "interactive",
 
+                        "interactive": {
+                            "type": "button",
+
+                            "body": {
+                                "text": text.strip()
+                            },
+
+                            "action": {
+                                "buttons": [
+                                    {
+                                        "type": "reply",
+                                        "reply": {
+                                            "id": "back_about_timothy",
+                                            "title": "Back"
+                                        }
+                                    },
+                                    {
+                                        "type": "reply",
+                                        "reply": {
+                                            "id": "back_home",
+                                            "title": "Back to Home"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+
+                    clear_state(sender)
+                    # Send message to WhatsApp
+                    send_whatsapp_message(sender, payload, headers, url)
+
+                    return "Okay"
+
+                # our Legacy
+                elif msg_type == "interactive_list_reply" and list_msg_id == "about_1_1":
+                    text = "🏛️ OUR LEGACY"
+                    text+= "\n\nEvery empire starts with a single step.\n\nOurs began with a promise: to help visionaries like you build wealth in Uganda. 🇺🇬"
+                    text+= "\n\n📖 Years of experience\n🤝 Hundreds of partnerships\n🌍 One mission: your success\n\n✨ Your legacy starts here.\n\n👇 Tap any button:"
                     payload = {
                         "messaging_product": "whatsapp",
                         "to": sender,
@@ -902,27 +1483,39 @@ def process_webhook(self, payload: dict):
 
                 # Invest in Uganda
                 elif msg_type == "interactive_list_reply" and list_msg_id == "about_1_2":
-                    text = "*Why Invest in Uganda?*"
-                    text += "\nUganda offers a secure, inclusive free-market environment, a young population, abundant natural resources, and a rapidly expanding economy. Priority sectors include agriculture, infrastructure, oil and natural resources, and technology, aligned with sustainable development goals."
-
-                    text += "\n\n*Favorable Legislation and Policy*"
-                    text += "\nThe Public-Private Partnership Act of 2015 encourages foreign and local investment. Supportive government policies strengthen Uganda's potential to become an important economic hub in Africa."
-
-                    text += "\n\n*Ready Markets*"
-                    text += "\nUganda provides access to growing domestic, regional, and international markets. Regional integration, including the African Continental Free Trade Area, supports increased trade, job creation, poverty reduction, and sustainable economic growth."
-
-                    text += "\n\n*Fast-Growing Economy*"
-                    text += "\nUganda has demonstrated strong long-term growth, with GDP approximately doubling each decade between 1990 and 2010. Stable macroeconomic policies, private-sector support, and resilience to global shocks continue to create opportunities across multiple sectors."
-
-                    text += "\n\n*Investment Incentives*"
-                    text += "\nQualifying foreign investors making capital investments of at least $500,000 may receive reduced import duties on machinery, equipment, vehicles, and construction materials; exemptions for eligible personal imports; tax and customs benefits for start-ups; and duty drawbacks on imported inputs used to produce export goods."
+                    text = "💼 INVEST IN UGANDA 🇺🇬"
+                    text+= "\n\n💎 Untapped potential\n📈 Booming economy\n🌍 Rich resources\n🎁 Investor incentives\n\n✨ Returns start here.\n\n👇 Tap any button:"
 
                     payload = {
                         "messaging_product": "whatsapp",
                         "to": sender,
-                        "type": "text",
-                        "text": {
-                            "body": text.strip()
+                        "type": "interactive",
+
+                        "interactive": {
+                            "type": "button",
+
+                            "body": {
+                                "text": text.strip()
+                            },
+
+                            "action": {
+                                "buttons": [
+                                    {
+                                        "type": "reply",
+                                        "reply": {
+                                            "id": "back_about_timothy",
+                                            "title": "Back"
+                                        }
+                                    },
+                                    {
+                                        "type": "reply",
+                                        "reply": {
+                                            "id": "back_home",
+                                            "title": "Back to Home"
+                                        }
+                                    }
+                                ]
+                            }
                         }
                     }
 
@@ -935,13 +1528,39 @@ def process_webhook(self, payload: dict):
                 # Office Locations
                 elif msg_type == "interactive_list_reply" and list_msg_id == "about_1_3":
 
-                    text = "We are operating in multiple locations around the world, especially in Africa.\n\n*Uganda*\nHome and Office complex\n\n*Kenya*\n308-8988 Fraserton Court\n\n*South Sudan*\nHai Malakal, Juba, South Sudan\n\n*South Africa*\nBlack River Park, Fir St\n\n*Japan*\nMetropolitan Road 319, Kanjo"
+                    text = "📍 OUR OFFICES 🌍\n\nGlobal reach. African roots."
+                    text+= "\n\n🇺🇬 Uganda:  Home and Office Complex\n🇰🇪 Kenya:  308-8988 Fraserton Court\n🇸🇸 South Sudan:  Hai Malakal, Juba"
+                    text+= "\n🇿🇦 South Africa:  Black River Park, Fir St\nJapan:  Metropolitan Road 319, Kanjo\n\n✨ We're closer than you think.\n\n👇 Tap any button:"
                     payload = {
                         "messaging_product": "whatsapp",
                         "to": sender,
-                        "type": "text",
-                        "text": {
-                            "body": text.strip()
+                        "type": "interactive",
+
+                        "interactive": {
+                            "type": "button",
+
+                            "body": {
+                                "text": text.strip()
+                            },
+
+                            "action": {
+                                "buttons": [
+                                    {
+                                        "type": "reply",
+                                        "reply": {
+                                            "id": "back_about_timothy",
+                                            "title": "Back"
+                                        }
+                                    },
+                                    {
+                                        "type": "reply",
+                                        "reply": {
+                                            "id": "back_home",
+                                            "title": "Back to Home"
+                                        }
+                                    }
+                                ]
+                            }
                         }
                     }
 
