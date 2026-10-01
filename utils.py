@@ -554,3 +554,80 @@ def send_notification_interested_payload(receipient_whatsApp, user_name, user_wh
     }
 
     return payload
+
+
+def partners_carousel_payload(sender):
+    """
+    Send an interactive WhatsApp carousel containing partner profiles.
+
+    partners:
+        Maximum 10 records.
+        Minimum 2 records.
+
+    Each card has:
+        - Partner photo
+        - Partner name
+        - Location
+        - Position
+        - View Profile CTA
+    """
+
+    # Load partners from partners.json
+    with open("partners.json", "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    partners = data.get("businesses", [])
+
+    cards = []
+
+    for index, partner in enumerate(partners):
+
+        card_body = (
+            f"*{partner['name']}*\n"
+            f"📍 {partner['location']}\n"
+            f"💼 {partner['position']}"
+        )
+
+        card = {
+            "card_index": index,
+            "type": "cta_url",
+            "header": {
+                "type": "image",
+                "image": {
+                    "link": partner["profile_photo"]
+                }
+            },
+            "body": {
+                "text": card_body
+            },
+            "action": {
+                "name": "cta_url",
+                "parameters": {
+                    "display_text": "View Profile",
+                    "url": partner["website_link"]
+                }
+            }
+        }
+
+        cards.append(card)
+
+    payload = {
+        "messaging_product": "whatsapp",
+        "recipient_type": "individual",
+        "to": sender,
+        "type": "interactive",
+        "interactive": {
+            "type": "carousel",
+            "body": {
+                "text": (
+                    "🤝 *Meet Our Strategic Partners*\n\n"
+                    "Swipe through the profiles of our partners below."
+                )
+            },
+            "action": {
+                "cards": cards
+            }
+        }
+    }
+
+    return payload

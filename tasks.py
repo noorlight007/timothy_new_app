@@ -7,7 +7,7 @@ import httpx
 from message_ids import add_message_id
 from utils import (extract_message_fields, get_businesses_by_industry, business_carousel_payload,
                    get_business_by_id, get_business_details_check_payload, get_businesses_by_category,
-                   send_notification_talk_live_advisor, send_notification_interested_payload)
+                   send_notification_talk_live_advisor, send_notification_interested_payload, partners_carousel_payload)
 
 from instructions import get_the_instruction
 import json
@@ -229,7 +229,33 @@ tools = [
             },
             "required": ["name"]
         }
-    }
+    },
+    {
+        "name": "interested_in_business_offer",
+        "description": (
+            "when a user expresses interest in a business offer, especially a message like pp_interest_id, use this tool to notify the team."
+            "an example is pp_interest_20. "
+            "The user must provide their name before this tool is called. Extract the "
+            "user's name and provide it as the 'name' parameter. "
+            "If the user sends a messaage like pp_interest_id but has not provided "
+            "their name, DO NOT call this tool; ask the user for their name first."
+        ),
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "business_id": {
+                    "type": "string",
+                    "description": "The ID of the business offer. split the message by 'pp_interest_' and extract the last part as the business_id."
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The user's name."
+                }
+            },
+            "required": ["business_id", "name"]
+        }
+    },
+    
 ]
 
 
@@ -330,7 +356,7 @@ def process_webhook(self, payload: dict):
             sender = msg.get("from")
             print(f"👤 Sender = {sender}")
 
-            # clear_data(sender)
+            clear_data(sender)
 
             msg_type, list_msg_id, button_msg_id, text_body, media_id, latitude, longitude = extract_message_fields(msg)
 
@@ -353,8 +379,9 @@ def process_webhook(self, payload: dict):
             for block in message.content:
                 if block.type != "tool_use":
                     continue
-                # print(block)
+                
 
+                # For Show Catelog function tool
                 if block.name == "show_catalog_business":
                     topic = block.input.get("topic")
                     print(f"Topic: {topic}")
@@ -374,14 +401,23 @@ def process_webhook(self, payload: dict):
 
                     send_whatsapp_message(payload, headers, url)
 
+                    # marking that a message has already been sent to the user, so we don't send DeepSeek's text response again.
                     message_sent_already = True
                     result = {
-                        "is_active": True
+                        "okay": True
                     }
 
                 if block.name == "fetch_partners":
+
+                    payload = partners_carousel_payload(sender)
+
+                    send_whatsapp_message(payload, headers, url)
+
+                    # marking that a message has already been sent to the user, so we don't send DeepSeek's text response again.
+                    message_sent_already = True
+                    
                     result = {
-                        "is_active": True
+                        "okay": True
                     }
 
                 tool_results.append({

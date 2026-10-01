@@ -1,0 +1,85 @@
+{
+    "catalogue_name": "Partners Catalogue",
+    "businesses": [
+        {
+            "id": 1,
+            "name": "Musasizi Timothy Karubanga",
+            "profile_photo": "https://chatbot.manygym.com/static/mktimothy.jpg",
+            "website_link": "https://www.mktimothy.com/team/mktimothy",
+            "location": "Uganda",
+            "position": "Founder"
+        },
+        {
+            "id": 2,
+            "name": "Ankunda Sandra",
+            "profile_photo": "https://chatbot.manygym.com/static/sandra.jpeg",
+            "website_link": "https://www.mktimothy.com/team/sandra",
+            "location": "Not found",
+            "position": "Partner"
+        },
+        {
+            "id": 3,
+            "name": "Tasha Mugisha",
+            "profile_photo": "https://chatbot.manygym.com/static/tashamugisha.jpg",
+            "website_link": "https://www.mktimothy.com/team/tasha",
+            "location": "Uganda",
+            "position": "Partner, Tourism & Hospitality Investment"
+        },
+        {
+            "id": 4,
+            "name": "Alemi James",
+            "profile_photo": "https://chatbot.manygym.com/static/alemijames.jpg",
+            "website_link": "https://www.mktimothy.com/team/alemi",
+            "location": "Uganda",
+            "position": "Automotive, Real Estate & International Trade Partner"
+        },
+        {
+            "id": 5,
+            "name": "Prof. Dr. Madhu Krishan",
+            "profile_photo": "https://chatbot.manygym.com/static/madhukrishan.jpg",
+            "website_link": "https://www.mktimothy.com/team/madhukrishan",
+            "location": "Global",
+            "position": "Strategic Global Partner"
+        },
+        {
+            "id": 6,
+            "name": "Stella",
+            "profile_photo": "https://chatbot.manygym.com/static/stella.jpg",
+            "website_link": "https://www.mktimothy.com/team/stella",
+            "location": "Sweden",
+            "position": "Operations Lead"
+        },
+        {
+            "id": 7,
+            "name": "Mateo Levi Åström",
+            "profile_photo": "https://chatbot.manygym.com/static/mateo.jpg",
+            "website_link": "https://www.mktimothy.com/team/mateo",
+            "location": "Turkey",
+            "position": "Analytics Lead"
+        },
+        {
+            "id": 8,
+            "name": "Mila",
+            "profile_photo": "https://chatbot.manygym.com/static/mila.jpg",
+            "website_link": "https://www.mktimothy.com/team/mila",
+            "location": "Switzerland",
+            "position": "Partner"
+        },
+        {
+            "id": 9,
+            "name": "Amelia",
+            "profile_photo": "https://chatbot.manygym.com/static/amelia.jpg",
+            "website_link": "https://www.mktimothy.com/team/amelia",
+            "location": "Osaka",
+            "position": "Partner"
+        },
+        {
+            "id": 10,
+            "name": "Zoey",
+            "profile_photo": "https://chatbot.manygym.com/static/zoey.jpg",
+            "website_link": "https://www.mktimothy.com/team/zoey",
+            "location": "South Africa",
+            "position": "Team Coordinator"
+        }
+    ]
+}
