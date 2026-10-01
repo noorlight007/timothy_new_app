@@ -349,6 +349,7 @@ def process_webhook(self, payload: dict):
             # Convert SDK objects -> JSON-compatible dictionaries
             assistant_content = serialize_content_blocks(message.content)
 
+            message_sent_already = False
             for block in message.content:
                 if block.type != "tool_use":
                     continue
@@ -357,6 +358,28 @@ def process_webhook(self, payload: dict):
                 if block.name == "show_catalog_business":
                     topic = block.input.get("topic")
                     print(f"Topic: {topic}")
+                    payload = None
+
+                    if topic == "ICT & Innovation":
+                        business_info = get_business_by_id(9)
+                        payload = get_business_details_check_payload(sender, business_info)
+
+                    elif topic == "Manufacturing" or topic == "Infrastructure" or topic == "Energy & Natural" or topic == "Real Estate":
+                        items = get_businesses_by_industry(topic)
+                        payload = business_carousel_payload(sender, items)
+
+                    else:
+                        items = get_businesses_by_category(topic)
+                        payload = business_carousel_payload(sender, items)
+
+                    send_whatsapp_message(payload, headers, url)
+
+                    message_sent_already = True
+                    result = {
+                        "is_active": True
+                    }
+
+                if block.name == "fetch_partners":
                     result = {
                         "is_active": True
                     }
@@ -385,17 +408,10 @@ def process_webhook(self, payload: dict):
                     tool_results
                 )
 
-                # # Save tool results as actual tool_result blocks
-                # add_tool_results(
-                #     sender,
-                #     tool_results
-                # )
-                
-
-                
-
-
-
+            if message_sent_already:
+                # If a message was already sent to the user (e.g., a carousel),
+                # we don't need to send DeepSeek's text response again.
+                return "okay"
             deepseek_resposne = message
             final_response = get_deepseek_response_text(deepseek_resposne)
             print(final_response)
