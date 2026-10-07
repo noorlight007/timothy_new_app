@@ -5,3 +5,6 @@ uvicorn
 celery[redis]
 redis
 mongoengine
+requests
+anthropic
+gunicorn

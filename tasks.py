@@ -345,20 +345,18 @@ def process_webhook(self, payload: dict):
 
             msg = messages[0]
             print(msg)
-            msg_id = msg.get("id")
-
-            new_msg_check = add_message_id(msg_id)
-            if not new_msg_check:
-                print("🔁 Duplicate message. Skipping.")
-                return "okay", 200     
+            msg_id = msg.get("id")    
 
             # Sender WhatsApp ID (phone number in international format without +)
             sender = msg.get("from")
             print(f"👤 Sender = {sender}")
 
-            clear_data(sender)
+            # clear_data(sender)
 
             msg_type, list_msg_id, button_msg_id, text_body, media_id, latitude, longitude = extract_message_fields(msg)
+            
+            if button_msg_id:
+                text_body = button_msg_id
 
             add_message(sender, "user", text_body)
 
@@ -374,6 +372,14 @@ def process_webhook(self, payload: dict):
 
             # Convert SDK objects -> JSON-compatible dictionaries
             assistant_content = serialize_content_blocks(message.content)
+
+            # Store DeepSeek's complete response:
+            # thinking + text + tool_use
+            add_message_raw(
+                sender,
+                "assistant",
+                assistant_content
+            )
 
             message_sent_already = False
             for block in message.content:
@@ -419,6 +425,65 @@ def process_webhook(self, payload: dict):
                     result = {
                         "okay": True
                     }
+                
+                if block.name == "speak_direct":
+                    name = block.input.get("name")
+                    print(f"Name: {name}")
+                    str_sender = f"+{sender}"
+                    payload = send_notification_talk_live_advisor("12568881990", name, str_sender)
+
+                    send_whatsapp_message(payload, headers, url)
+
+                    # Text only
+                    user_payload = {
+                        "messaging_product": "whatsapp",
+                        "recipient_type": "individual",
+                        "to": sender,
+                        "type": "text",
+                        "text": {
+                            "body": f"Thank you {name}! An advisor will contact you shortly."
+                        }
+                    }
+
+                    send_whatsapp_message(user_payload, headers, url)
+
+                    # marking that a message has already been sent to the user, so we don't send DeepSeek's text response again.
+                    message_sent_already = True
+                    
+                    result = {
+                        "request_sent": True
+                    }
+
+                if block.name == "interested_in_business_offer":
+                    business_id = block.input.get("business_id")
+                    business_info = get_business_by_id(business_id)
+                    name = block.input.get("name")
+                    print(f"Business ID: {business_id}, Name: {name}")
+
+                    str_sender = f"+{sender}"
+                    notification_payload = send_notification_interested_payload("12568881990", name, str_sender, business_info)
+
+                    send_whatsapp_message(notification_payload, headers, url)
+
+                    # Text only
+                    user_payload = {
+                        "messaging_product": "whatsapp",
+                        "recipient_type": "individual",
+                        "to": sender,
+                        "type": "text",
+                        "text": {
+                            "body": f"Thank you {name}! Your interest in the business offer has been noted. An advisor will contact you shortly."
+                        }
+                    }
+
+                    send_whatsapp_message(user_payload, headers, url)
+
+                    # marking that a message has already been sent to the user, so we don't send DeepSeek's text response again.
+                    message_sent_already = True
+                    
+                    result = {
+                        "request_sent": True
+                    }
 
                 tool_results.append({
                     "type": "tool_result",
@@ -426,13 +491,7 @@ def process_webhook(self, payload: dict):
                     "content": json.dumps({"sent": "okay"}, ensure_ascii=False)
                 })
 
-            # Store DeepSeek's complete response:
-            # thinking + text + tool_use
-            add_message_raw(
-                sender,
-                "assistant",
-                assistant_content
-            )
+            
 
             if tool_results:
 
@@ -465,6 +524,18 @@ def process_webhook(self, payload: dict):
             
             send_whatsapp_message(payload, headers, url)
 
+            process_ai_message.delay(payload)
+
             # add_message(sender, "assistant", final_response)
 
             return "okay"
+
+
+@celery.task(bind=True, max_retries=3, default_retry_delay=10)
+def process_ai_message(self, payload: dict):
+    print("Processing AI message...")
+    # TODO
+
+    ## We will store  the message history here
+    
+    return "okay"
