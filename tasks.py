@@ -353,10 +353,13 @@ def process_webhook(self, payload: dict):
 
             # clear_data(sender)
 
-            msg_type, list_msg_id, button_msg_id, text_body, media_id, latitude, longitude = extract_message_fields(msg)
+            msg_type, list_msg_id, button_msg_id, text_body, media_id, latitude, longitude, media_mime_type = extract_message_fields(msg)
             
             if button_msg_id:
                 text_body = button_msg_id
+            
+            if media_id:
+                text_body = "[Media message received]"
 
             add_message(sender, "user", text_body)
 

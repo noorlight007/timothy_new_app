@@ -19,7 +19,9 @@ import mimetypes
 from tasks import process_webhook  # your Celery task
 from message_ids import add_message_id
 from utils import extract_message_fields
-from users_db import store_user, store_message
+from users_db import (store_user, store_message, get_all_users, turn_on_auto_bot, turn_off_auto_bot, check_auto_bot_status,
+                      check_if_last_message_within_timeframe, get_message_history, clear_message_history)
+from db_templates import get_all_templates
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("whatsapp-bot")
@@ -198,6 +200,63 @@ def send_whatsapp_message(payload: dict, headers: dict, url: str):
 
         return resp.json()
 
+
+import httpx
+import uuid
+import mimetypes
+
+async def download_whatsapp_media(media_id: str):
+
+    headers = {
+        "Authorization": f"Bearer {WHATSAPP_ACCESS_TOKEN}"
+    }
+
+    async with httpx.AsyncClient(timeout=60.0) as client:
+
+        # Get media information
+        response = await client.get(
+            f"https://graph.facebook.com/v26.0/{media_id}",
+            headers=headers
+        )
+        response.raise_for_status()
+
+        media_info = response.json()
+        media_url = media_info.get("url")
+        mime_type = media_info.get("mime_type", "application/octet-stream")
+
+        if not media_url:
+            return None
+
+        # Generate unique filename
+        extension = mimetypes.guess_extension(
+            mime_type.split(";")[0]
+        ) or ".bin"
+
+        filename = f"{uuid.uuid4().hex}{extension}"
+        file_path = STATIC_DIR / filename
+
+        # Download and save media
+        async with client.stream(
+            "GET",
+            media_url,
+            headers=headers,
+            follow_redirects=True
+        ) as media_response:
+
+            media_response.raise_for_status()
+
+            with open(file_path, "wb") as file:
+                async for chunk in media_response.aiter_bytes():
+                    file.write(chunk)
+
+    # Generate public URL
+    public_url = (
+        f"https://chatbot.manygym.com/static/whatsapp_media/{filename}"
+    )
+
+    return public_url
+
+
 @app.on_event("startup")
 async def startup():
     global http_client
@@ -257,6 +316,7 @@ async def receive(request: Request):
         profile_name = None
         sender = None
 
+        text_body = None
         for entry in data.get("entry", []):
             for change in entry.get("changes", []):
                 value = change.get("value", {})
@@ -288,30 +348,47 @@ async def receive(request: Request):
     
                 # clear_data(sender)
     
-                msg_type, list_msg_id, button_msg_id, text_body, media_id, latitude, longitude = extract_message_fields(msg)
+                msg_type, list_msg_id, button_msg_id, text_body, media_id, latitude, longitude, media_mime_type = extract_message_fields(msg)
                 
                 if button_msg_id:
                     text_body = button_msg_id
 
-        user = store_user(
-            wp_number=sender,
-            wp_name=profile_name
-        )
+                if media_id:
+                    try:
+                        media_link = await download_whatsapp_media(media_id)
 
-        store_message(
-            wp_number=sender,
-            role="user",
-            content=text_body
-        )
+                        print(f"Media link: {media_link}")
 
-        if user.auto_bot_reply:
-            print("Auto bot reply is enabled. Sending auto reply...")
-            # Keep your Celery async processing
-            process_webhook.delay(data)
-            print("sent")
-        # print(data)
+                    except httpx.HTTPError as e:
+                        print(f"Failed to download media: {e}")
+                        media_link = None
 
-        return PlainTextResponse(content="okay", status_code=200)
+                    if media_link:
+                        if text_body:
+                            text_body = f"{text_body}\n{media_link}"
+                        else:
+                            text_body = media_link
+
+
+                user = store_user(
+                    wp_number=sender,
+                    wp_name=profile_name
+                )
+
+                store_message(
+                    wp_number=sender,
+                    role="user",
+                    content=text_body
+                )
+
+                if user.auto_bot_reply:
+                    print("Auto bot reply is enabled. Sending auto reply...")
+                    # Keep your Celery async processing
+                    process_webhook.delay(data)
+                    print("sent")
+                # print(data)
+
+                return PlainTextResponse(content="okay", status_code=200)
 
     except Exception as e:
         logger.exception("Error processing webhook: %s", str(e))
@@ -401,7 +478,7 @@ async def admin_send_whatsapp(
 
         if text_msg_payload:
             # Send text message first
-            send_whatsapp_message(text_msg_payload, headers, url)
+            send_whatsapp_message(teDerective7xt_msg_payload, headers, url)
 
         if media_payload:
             send_whatsapp_message(media_payload, headers, url)
@@ -433,10 +510,173 @@ async def admin_send_whatsapp(
 ## Get all whatsapp contacts from the database
 @app.get("/get_all_contacts")
 async def get_all_contacts(request: Request):
-    return "okay"
+    all_users = get_all_users()
+    return all_users
 
 
 ## Turn off or On auto bot reply for a user
 @app.post("/turn_off_on_auto_bot")
 async def turn_off_on_auto_bot(request: Request):
+    data = await request.json()
+    wp_number = data.get("wp_number")
+    action = data.get("action")  # "on" or "off"
+
+    if action.lower() == "on":
+        turn_on_auto_bot(wp_number)
+    elif action.lower() == "off":
+        turn_off_auto_bot(wp_number)
+
     return "okay"
+
+
+## Check auto bot status
+@app.get("/check_auto_bot_status")
+async def check_auto_bot_status_endpoint(request: Request):
+    data = await request.json()
+    wp_number = data.get("wp_number")
+
+    status = check_auto_bot_status(wp_number)
+
+    if status is None:
+        return {
+            "success": False,
+            "message": "User not found."
+        }
+
+    return {
+        "success": True,
+        "auto_bot_reply_status": status
+    }
+
+## Check if last message was sent within a certain timeframe
+@app.get("/check_last_message_timeframe")
+async def check_last_message_timeframe_endpoint(request: Request):
+    data = await request.json()
+    wp_number = data.get("wp_number")
+    timeframe_minutes = data.get("timeframe_minutes", 5)  # default to 5 minutes if not provided
+
+    is_within_timeframe = check_if_last_message_within_timeframe(wp_number, timeframe_minutes)
+
+    if is_within_timeframe is None:
+        return {
+            "success": False,
+            "message": "User not found."
+        }
+
+    return {
+        "success": True,
+        "is_within_timeframe": is_within_timeframe
+    }
+
+
+## Get message history of a user
+@app.get("/get_message_history")
+async def get_message_history_endpoint(request: Request):
+    data = await request.json()
+    wp_number = data.get("wp_number")
+
+    message_history = get_message_history(wp_number)
+
+    if message_history is None:
+        return {
+            "success": False,
+            "message": "User not found."
+        }
+
+    return {
+        "success": True,
+        "message_history": message_history
+    }
+
+
+## Clear message history of a user
+@app.post("/clear_message_history")
+async def clear_message_history_endpoint(request: Request):
+    data = await request.json()
+    wp_number = data.get("wp_number")
+
+    cleared = clear_message_history(wp_number)
+
+    if not cleared:
+        return {
+            "success": False,
+            "message": "User not found."
+        }
+
+    return {
+        "success": True,
+        "message": "Message history cleared."
+    }
+
+
+## Get all WhatsApp templates
+@app.get("/get_all_templates")
+async def get_all_templates_endpoint(request: Request):
+    templates = get_all_templates()
+    return templates
+
+## Send template message to a user
+@app.post("/send_template_message")
+async def send_template_message_endpoint(request: Request):
+    data = await request.json()
+    wp_number = data.get("wp_number")
+    template_name = data.get("template_name")
+    template_language = data.get("template_language")
+    template_parameters = data.get("template_parameters", [])
+
+    if not wp_number or not template_name or not template_language:
+        raise HTTPException(
+            status_code=400,
+            detail="wp_number, template_name, and template_language are required."
+        )
+
+    # Construct the payload for the WhatsApp Cloud API
+    payload = {
+        "messaging_product": "whatsapp",
+        "recipient_type": "individual",
+        "to": wp_number,
+        "type": "template",
+        "template": {
+            "name": template_name,
+            "language": {
+                "code": template_language
+            },
+            "components": [
+                {
+                    "type": "body",
+                    "parameters": [
+                        {"type": "text", "text": param} for param in template_parameters
+                    ]
+                }
+            ]
+        }
+    }
+
+    url = f"https://graph.facebook.com/v26.0/{WHATSAPP_PHONE_NUMBER_ID}/messages"
+    headers = {
+        "Authorization": f"Bearer {WHATSAPP_ACCESS_TOKEN}",
+        "Content-Type": "application/json",
+    }
+
+    response = send_whatsapp_message(payload, headers, url)
+
+    if not response.get("success", True):
+        raise HTTPException(
+            status_code=response.get("status_code", 500),
+            detail=response.get("response", "Failed to send template message.")
+        )
+
+    # Store the sent template message in the database
+    store_message(
+        wp_number=wp_number,
+        role="admin",
+        content=f"Template: {template_name}, Parameters: {template_parameters}"
+    )
+
+    return {
+        "success": True,
+        "message": "Template message sent successfully.",
+        "response": response
+    }
+
+

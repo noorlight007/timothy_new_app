@@ -49,6 +49,20 @@ class WpUser(Document):
 # ============================================================
 # USER FUNCTIONS
 # ============================================================
+def get_all_users():
+    users = WpUser.objects.exclude("message_history")
+    return [
+        {
+            "id": user.id,
+            "wp_name": user.wp_name,
+            "wp_number": user.wp_number,
+            "auto_bot_reply": user.auto_bot_reply,
+            "last_user_message_datetime": user.last_user_message_datetime.isoformat() if user.last_user_message_datetime else None,
+            "created_at": user.created_at.isoformat() if user.created_at else None,
+            "updated_at": user.updated_at.isoformat() if user.updated_at else None
+        }
+        for user in users
+    ]
 
 def store_user(wp_name, wp_number):
     """
@@ -263,7 +277,15 @@ def get_message_history(wp_number):
     if not user:
         return None
 
-    return user.message_history
+    return [
+        {
+            "role": message.role,
+            "content": message.content,
+            "created_at": message.created_at.isoformat() if message.created_at else None
+        }
+        for message in user.message_history
+    ]
+
 
 
 def clear_message_history(wp_number):
@@ -308,4 +330,6 @@ def check_if_last_message_within_timeframe(wp_number, timeframe_minutes):
     current_time = datetime.utcnow()
     time_difference = current_time - last_message_time
 
+    
+    # Explanation: The total_seconds() method returns the total number of seconds in the time difference. We compare this to the specified timeframe in seconds (timeframe_minutes * 60) to determine if the last message was sent within the given timeframe.
     return time_difference.total_seconds() <= (timeframe_minutes * 60)

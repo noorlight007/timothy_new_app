@@ -147,6 +147,7 @@ def extract_message_fields(msg: dict):
     media_id = None
     latitude = None
     longitude = None
+    media_mime_type = None
 
     # --------------------------------------------------
     # TEXT MESSAGE
@@ -202,6 +203,7 @@ def extract_message_fields(msg: dict):
 
         media_id = image.get("id")
         text_body = image.get("caption")
+        media_mime_type = image.get("mime_type")
 
     # --------------------------------------------------
     # VIDEO
@@ -211,6 +213,7 @@ def extract_message_fields(msg: dict):
 
         media_id = video.get("id")
         text_body = video.get("caption")
+        media_mime_type = video.get("mime_type")
 
     # --------------------------------------------------
     # DOCUMENT
@@ -219,6 +222,7 @@ def extract_message_fields(msg: dict):
         document = msg.get("document", {})
 
         media_id = document.get("id")
+        media_mime_type = document.get("mime_type")
 
         # Prefer caption, otherwise filename
         text_body = (
@@ -232,13 +236,14 @@ def extract_message_fields(msg: dict):
     elif msg_type == "audio":
         audio = msg.get("audio", {})
         media_id = audio.get("id")
-
+        media_mime_type = audio.get("mime_type")
     # --------------------------------------------------
     # STICKER
     # --------------------------------------------------
     elif msg_type == "sticker":
         sticker = msg.get("sticker", {})
         media_id = sticker.get("id")
+        media_mime_type = sticker.get("mime_type")
 
     # --------------------------------------------------
     # LOCATION
@@ -304,6 +309,7 @@ def extract_message_fields(msg: dict):
         media_id,
         latitude,
         longitude,
+        media_mime_type
     )
 
 
