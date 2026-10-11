@@ -8,3 +8,4 @@ mongoengine
 requests
 anthropic
 gunicorn
+python-multipart
