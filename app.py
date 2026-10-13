@@ -323,6 +323,7 @@ async def receive(request: Request):
     
                 # Profile name (if present)
                 profile_name = None
+                sender = None
                 try:
                     profile_name = value["contacts"][0]["profile"]["name"]
                     print(f"Profile name = {profile_name}")
@@ -345,6 +346,8 @@ async def receive(request: Request):
                 # Sender WhatsApp ID (phone number in international format without +)
                 sender = msg.get("from")
                 print(f"👤 Sender = {sender}")
+                if not sender:
+                    sender = msg.get("from_user_id")
     
                 # clear_data(sender)
     
@@ -371,8 +374,9 @@ async def receive(request: Request):
 
 
                 user = store_user(
-                    wp_number=sender,
-                    wp_name=profile_name
+                    
+                    wp_name=profile_name,
+                    wp_number=sender
                 )
 
                 store_message(
@@ -420,6 +424,19 @@ async def admin_send_whatsapp(
 
         # Send text through WhatsApp Cloud API
         # await send_whatsapp_text(wp_number, message)
+        # Send through WhatsApp Cloud API
+        url = f"https://graph.facebook.com/v26.0/{WHATSAPP_PHONE_NUMBER_ID}/messages"
+        headers = {
+            "Authorization": f"Bearer {WHATSAPP_ACCESS_TOKEN}",
+            "Content-Type": "application/json",
+        }
+        payload = {
+            "messaging_product": "whatsapp",
+            "to": wp_number,
+            "type": "text",
+            "text": {"body": message.strip()}
+        }
+        send_whatsapp_message(payload, headers, url)
 
         # Store admin message
         store_message(
@@ -478,7 +495,7 @@ async def admin_send_whatsapp(
 
         if text_msg_payload:
             # Send text message first
-            send_whatsapp_message(teDerective7xt_msg_payload, headers, url)
+            send_whatsapp_message(text_msg_payload, headers, url)
 
         if media_payload:
             send_whatsapp_message(media_payload, headers, url)

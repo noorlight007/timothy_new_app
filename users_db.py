@@ -23,6 +23,8 @@ class WpUser(Document):
     wp_name = StringField(required=True)
     wp_number = StringField(required=True, unique=True)
 
+    unread_message_count = IntField(default=0)
+
     auto_bot_reply = BooleanField(default=True)
 
     message_history = ListField(
@@ -50,13 +52,15 @@ class WpUser(Document):
 # USER FUNCTIONS
 # ============================================================
 def get_all_users():
-    users = WpUser.objects.exclude("message_history")
+    # get users , and last_user_message_datetime in descending order
+    users = WpUser.objects.exclude("message_history").order_by("-last_user_message_datetime")
     return [
         {
             "id": user.id,
             "wp_name": user.wp_name,
             "wp_number": user.wp_number,
             "auto_bot_reply": user.auto_bot_reply,
+            "unread_message_count": user.unread_message_count,
             "last_user_message_datetime": user.last_user_message_datetime.isoformat() if user.last_user_message_datetime else None,
             "created_at": user.created_at.isoformat() if user.created_at else None,
             "updated_at": user.updated_at.isoformat() if user.updated_at else None
@@ -209,6 +213,7 @@ def store_message(
 
     if role == "user":
         user.last_user_message_datetime = datetime.utcnow()
+        user.unread_message_count += 1
 
     user.save()
 
@@ -276,7 +281,8 @@ def get_message_history(wp_number):
 
     if not user:
         return None
-
+    user.unread_message_count = 0
+    user.save()
     return [
         {
             "role": message.role,
@@ -315,6 +321,7 @@ def check_if_last_message_within_timeframe(wp_number, timeframe_minutes):
         True if the last message was sent within the timeframe
         False if it was sent outside the timeframe or if no messages exist
         None if user not found
+        
     """
 
     user = find_user(wp_number=wp_number)

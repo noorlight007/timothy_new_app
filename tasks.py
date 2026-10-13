@@ -11,7 +11,7 @@ from utils import (extract_message_fields, get_businesses_by_industry, business_
 
 from instructions import get_the_instruction
 import json
-
+from users_db import store_message
 WHATSAPP_PHONE_NUMBER_ID=os.getenv("PHONE_NUMBER_ID")
 WHATSAPP_ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
 VERIFY_TOKEN = "6984125oO!"
@@ -333,6 +333,7 @@ def process_webhook(self, payload: dict):
 
             # Profile name (if present)
             profile_name = None
+            sender = None
             try:
                 profile_name = value["contacts"][0]["profile"]["name"]
                 print(f"Profile name = {profile_name}")
@@ -350,6 +351,8 @@ def process_webhook(self, payload: dict):
             # Sender WhatsApp ID (phone number in international format without +)
             sender = msg.get("from")
             print(f"👤 Sender = {sender}")
+            if not sender:
+                sender = msg.get("from_user_id")
 
             # clear_data(sender)
 
@@ -410,6 +413,10 @@ def process_webhook(self, payload: dict):
 
                     send_whatsapp_message(payload, headers, url)
 
+                    msg_body = "[WhatsApp carousel message sent to user with business information.]"
+                    storing_payload = {"to": sender, "role": "bot", "content": msg_body}
+                    process_ai_message.delay(storing_payload)
+
                     # marking that a message has already been sent to the user, so we don't send DeepSeek's text response again.
                     message_sent_already = True
                     result = {
@@ -421,6 +428,10 @@ def process_webhook(self, payload: dict):
                     payload = partners_carousel_payload(sender)
 
                     send_whatsapp_message(payload, headers, url)
+
+                    msg_body = "[WhatsApp carousel message sent to user with strategic partners information.]"
+                    storing_payload = {"to": sender, "role": "bot", "content": msg_body}
+                    process_ai_message.delay(storing_payload)
 
                     # marking that a message has already been sent to the user, so we don't send DeepSeek's text response again.
                     message_sent_already = True
@@ -438,17 +449,21 @@ def process_webhook(self, payload: dict):
                     send_whatsapp_message(payload, headers, url)
 
                     # Text only
+                    msg_body = f"Thank you {name}! An advisor will contact you shortly."
                     user_payload = {
                         "messaging_product": "whatsapp",
                         "recipient_type": "individual",
                         "to": sender,
                         "type": "text",
                         "text": {
-                            "body": f"Thank you {name}! An advisor will contact you shortly."
+                            "body": msg_body
                         }
                     }
 
                     send_whatsapp_message(user_payload, headers, url)
+
+                    storing_payload = {"to": sender, "role": "bot", "content": msg_body}
+                    process_ai_message.delay(storing_payload)
 
                     # marking that a message has already been sent to the user, so we don't send DeepSeek's text response again.
                     message_sent_already = True
@@ -469,17 +484,21 @@ def process_webhook(self, payload: dict):
                     send_whatsapp_message(notification_payload, headers, url)
 
                     # Text only
+                    msg_body = f"Thank you {name}! Your interest in the business offer has been noted. An advisor will contact you shortly."
                     user_payload = {
                         "messaging_product": "whatsapp",
                         "recipient_type": "individual",
                         "to": sender,
                         "type": "text",
                         "text": {
-                            "body": f"Thank you {name}! Your interest in the business offer has been noted. An advisor will contact you shortly."
+                            "body": msg_body
                         }
                     }
 
                     send_whatsapp_message(user_payload, headers, url)
+
+                    storing_payload = {"to": sender, "role": "bot", "content": msg_body}
+                    process_ai_message.delay(storing_payload)
 
                     # marking that a message has already been sent to the user, so we don't send DeepSeek's text response again.
                     message_sent_already = True
@@ -524,10 +543,12 @@ def process_webhook(self, payload: dict):
                 }
             }
 
+            storing_payload = {"to": sender, "role": "bot", "content": final_response}
+
             
             send_whatsapp_message(payload, headers, url)
 
-            process_ai_message.delay(payload)
+            process_ai_message.delay(storing_payload)
 
             # add_message(sender, "assistant", final_response)
 
@@ -538,6 +559,12 @@ def process_webhook(self, payload: dict):
 def process_ai_message(self, payload: dict):
     print("Processing AI message...")
     # TODO
+
+    store_message( 
+        wp_number=payload.get("to"),
+        role=payload.get("role"),
+        content=payload.get("content")
+    )
 
     ## We will store  the message history here
     
